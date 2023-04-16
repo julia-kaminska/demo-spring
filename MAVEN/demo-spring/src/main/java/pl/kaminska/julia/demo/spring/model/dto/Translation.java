@@ -1,5 +1,8 @@
 package pl.kaminska.julia.demo.spring.model.dto;
 
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+
 import java.util.Map;
 
 public class Translation {
@@ -8,8 +11,9 @@ public class Translation {
         this.code = code;
         this.translations = translations;
     }
-
+@NotEmpty
     private String code;
+    @NotNull
     private Map<String, String> translations;
 
     public String getCode() {

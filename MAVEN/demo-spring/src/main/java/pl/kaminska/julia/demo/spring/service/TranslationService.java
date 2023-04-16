@@ -1,5 +1,6 @@
 package pl.kaminska.julia.demo.spring.service;
 
+import exception.CustomException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.kaminska.julia.demo.spring.model.dto.Translation;
@@ -76,7 +77,7 @@ public class TranslationService {
                 .ifPresentOrElse(
                         translationRepository::save,
                         () -> {
-                            throw new IllegalArgumentException("nie znaleziono obiektu dla podanych code i language");
+                            throw new CustomException("nie znaleziono obiektu dla podanych code i language");
                         }
                 );
 

@@ -1,11 +1,14 @@
 package pl.kaminska.julia.demo.spring.controller;
 
 
+import exception.CustomException;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.kaminska.julia.demo.spring.model.dto.ExceptionResponse;
 import pl.kaminska.julia.demo.spring.model.dto.Translation;
 import pl.kaminska.julia.demo.spring.model.dto.TranslationUpdate;
 import pl.kaminska.julia.demo.spring.service.TranslationService;
@@ -16,6 +19,13 @@ import java.util.List;
 public class TranslationController {
 
     private final TranslationService translationService;
+
+    @ExceptionHandler({CustomException.class})
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<ExceptionResponse> handleIllegalArgumentException(CustomException exception) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(new ExceptionResponse(exception.getMessage()));
+    }
 
     @Autowired
     public TranslationController(TranslationService translationService){
@@ -31,7 +41,7 @@ public class TranslationController {
 
     //CRUD - C = CREATE / POST
     @RequestMapping(method = RequestMethod.POST, path = "/translations")
-    public ResponseEntity<Void> createTranslation(@RequestBody Translation newTranslation){
+    public ResponseEntity<Void> createTranslation(@RequestBody @Valid Translation newTranslation){
         List<Long> ids = translationService.saveTranslation(newTranslation).stream().map(x -> x.getId()).toList();
         return ResponseEntity
                 .status(HttpStatus.CREATED)
