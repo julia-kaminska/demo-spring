@@ -3,6 +3,7 @@ package pl.kaminska.julia.demo.spring.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.kaminska.julia.demo.spring.model.dto.Translation;
+import pl.kaminska.julia.demo.spring.model.dto.TranslationUpdate;
 import pl.kaminska.julia.demo.spring.model.entity.TranslationEntity;
 import pl.kaminska.julia.demo.spring.repository.TranslationRepository;
 
@@ -66,6 +67,29 @@ public class TranslationService {
                     })
                     .collect(Collectors.toList()));
         }
+    public void updateTranslation(String code, String language, TranslationUpdate translationUpdate) {
+        translationRepository.findByCodeAndLanguage(code, language)
+                .map(x -> {
+                    x.setTranslation(translationUpdate.getTranslation());
+                    return x;
+                })
+                .ifPresentOrElse(
+                        translationRepository::save,
+                        () -> {
+                            throw new IllegalArgumentException("nie znaleziono obiektu dla podanych code i language");
+                        }
+                );
 
+    }
+
+    public void deleteTranslation(String code){
+        translationRepository.deleteAll(translationRepository.findAllByCode(code));
+    }
+    public void deleteTranslation(String code, String language){
+        translationRepository.findByCodeAndLanguage(code, language)
+                .ifPresent(translationRepository::delete);
+
+//        translationRepository.delete(translationRepository.findByCodeAndLanguage(code, language).get()); //ale get rzuci NPE jak nie ma takiego wpisu
+    }
 
 }

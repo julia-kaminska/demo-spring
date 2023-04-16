@@ -3,9 +3,11 @@ package pl.kaminska.julia.demo.spring.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.kaminska.julia.demo.spring.model.dto.Translation;
+import pl.kaminska.julia.demo.spring.model.dto.TranslationUpdate;
 import pl.kaminska.julia.demo.spring.service.TranslationService;
 
 import java.util.List;
@@ -36,6 +38,19 @@ public class TranslationController {
                 .header("x-created-object-id", ids.toString())
                 .build();
     }
+    //CRUD - U = UPDATE / PUT
+    @RequestMapping(method = RequestMethod.PUT, path = "/translations/{code}/{language}")
+    public void updateTranslation(@PathVariable String code, @PathVariable String language, @RequestBody TranslationUpdate translationUpdate){
+        translationService.updateTranslation(code, language, translationUpdate);
+    }
+
+    //CRUD - D = DELETE
+    @RequestMapping(method = RequestMethod.DELETE, path = "/translations/{code}/{language}")
+    public void deleteTranslation(@PathVariable String code, @PathVariable String language){
+        translationService.deleteTranslation(code, language);
+    }
+
+
 
 //    public void createTranslation(@RequestBody String newTranslation){
 //        System.out.println(newTranslation);
