@@ -1,11 +1,13 @@
 package pl.kaminska.julia.demo.spring.controller;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import pl.kaminska.julia.demo.spring.model.Translation;
+import pl.kaminska.julia.demo.spring.service.TranslationService;
 
 import java.util.List;
 import java.util.Map;
@@ -13,16 +15,18 @@ import java.util.Map;
 @RestController
 public class TranslationController {
 
+    private TranslationService translationService;
+
+    @Autowired
+    public TranslationController(TranslationService translationService) {
+        this.translationService = translationService;
+    }
+
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(method = RequestMethod.GET, path = "/translations")
     public List<Translation> getAllTranslations() {
-        System.out.println("Hello");
-        Translation translation = new Translation(
-                "main.page.welcome-message",
-                Map.of("EN", "Hello", "PL", "Witaj", "CN", "欢迎")
-        );
-
-        return List.of(translation, translation, translation, translation);
+        return translationService.getAllTranslationsFromDataSource();
+    }
 
         //    @RequestMapping(method = RequestMethod.POST, path = "/translations")
 //    public void saveNewTranslation(){
@@ -36,4 +40,4 @@ public class TranslationController {
 
 
     }
-}
+
