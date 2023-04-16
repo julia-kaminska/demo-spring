@@ -3,6 +3,7 @@ package pl.kaminska.julia.demo.spring.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.kaminska.julia.demo.spring.model.dto.Translation;
 import pl.kaminska.julia.demo.spring.service.TranslationService;
@@ -15,8 +16,7 @@ public class TranslationController {
     private final TranslationService translationService;
 
     @Autowired
-    public TranslationController(
-            @Qualifier("translationServiceImpl") TranslationService translationService){
+    public TranslationController(TranslationService translationService){
         this.translationService = translationService;
     }
 
@@ -29,11 +29,12 @@ public class TranslationController {
 
     //CRUD - C = CREATE / POST
     @RequestMapping(method = RequestMethod.POST, path = "/translations")
-    public void createTranslation(@RequestBody Translation newTranslation){
-        System.out.println(newTranslation);
-        System.out.println(newTranslation.getCode());
-        System.out.println(newTranslation.getTranslations());
-        //translationService.saveTranslation(newTranslation);
+    public ResponseEntity<Void> createTranslation(@RequestBody Translation newTranslation){
+        List<Long> ids = translationService.saveTranslation(newTranslation).stream().map(x -> x.getId()).toList();
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .header("x-created-object-id", ids.toString())
+                .build();
     }
 
 //    public void createTranslation(@RequestBody String newTranslation){

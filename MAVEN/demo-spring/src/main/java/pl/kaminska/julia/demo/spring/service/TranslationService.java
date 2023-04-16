@@ -52,7 +52,20 @@ public class TranslationService {
 //        );
 //
 //        return List.of(translation);
-
-
     }
+        public List<TranslationEntity> saveTranslation(Translation newTranslation) {
+            return translationRepository.saveAll(newTranslation.getTranslations()
+                    .entrySet()
+                    .stream()
+                    .map(x -> {
+                        TranslationEntity entity = new TranslationEntity();
+                        entity.setCode(newTranslation.getCode());
+                        entity.setLanguage(x.getKey());
+                        entity.setTranslation(x.getValue());
+                        return entity;
+                    })
+                    .collect(Collectors.toList()));
+        }
+
+
 }
