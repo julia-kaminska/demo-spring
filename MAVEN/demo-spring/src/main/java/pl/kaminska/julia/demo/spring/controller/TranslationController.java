@@ -6,16 +6,15 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import pl.kaminska.julia.demo.spring.model.Translation;
+import pl.kaminska.julia.demo.spring.model.dto.Translation;
 import pl.kaminska.julia.demo.spring.service.TranslationService;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 public class TranslationController {
 
-    private TranslationService translationService;
+    private final TranslationService translationService;
 
     @Autowired
     public TranslationController(TranslationService translationService) {

@@ -1,4 +1,4 @@
-package pl.kaminska.julia.demo.spring.model;
+package pl.kaminska.julia.demo.spring.model.dto;
 
 import java.util.Map;
 
