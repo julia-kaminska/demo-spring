@@ -1,6 +1,7 @@
 package pl.kaminska.julia.demo.spring.controller;
 
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,6 +12,8 @@ import java.util.Map;
 
 @RestController
 public class TranslationController {
+
+    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(method = RequestMethod.GET, path = "/translations")
     public List<Translation> getAllTranslations() {
         System.out.println("Hello");
@@ -19,7 +22,7 @@ public class TranslationController {
                 Map.of("EN", "Hello", "PL", "Witaj", "CN", "欢迎")
         );
 
-        return List.of(translation);
+        return List.of(translation, translation, translation, translation);
 
         //    @RequestMapping(method = RequestMethod.POST, path = "/translations")
 //    public void saveNewTranslation(){
