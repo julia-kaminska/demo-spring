@@ -77,7 +77,7 @@ public class TranslationService {
                 .ifPresentOrElse(
                         translationRepository::save,
                         () -> {
-                            throw new CustomException("nie znaleziono obiektu dla podanych code i language");
+                            throw new IllegalArgumentException("nie znaleziono obiektu dla podanych code i language");
                         }
                 );
 
