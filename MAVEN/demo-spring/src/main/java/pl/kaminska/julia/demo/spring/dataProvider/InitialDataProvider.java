@@ -21,10 +21,11 @@ public class InitialDataProvider implements CommandLineRunner {
 
     @Autowired
     public InitialDataProvider(TranslationRepository repository,
-                               @Value("${data.user.admin.password}") String adminPassword) {
+                               @Value("${data.user.admin.password:haslo123}") String adminPassword, AdminDefaultData defaultData) {
         this.repository = repository;
         System.out.println(adminUser + " : " + adminPassword);
         this.adminPassword = adminPassword;
+        System.out.println(defaultData.getPassword() + " : " +defaultData.getPassword());
     }
 
     @Override

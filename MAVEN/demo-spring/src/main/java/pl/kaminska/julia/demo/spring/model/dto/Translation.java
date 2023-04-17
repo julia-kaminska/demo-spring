@@ -11,7 +11,7 @@ public class Translation {
         this.code = code;
         this.translations = translations;
     }
-@NotEmpty
+@NotEmpty(message = "must conatin content ")
     private String code;
     @NotNull
     private Map<String, String> translations;
