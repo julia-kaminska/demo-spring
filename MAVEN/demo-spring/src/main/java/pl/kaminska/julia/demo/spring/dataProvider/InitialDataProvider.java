@@ -11,7 +11,7 @@ import pl.kaminska.julia.demo.spring.repository.TranslationRepository;
 import java.util.Map;
 
 @Component
-@Profile("init-data")
+@Profile("init-data && !test")
 public class InitialDataProvider implements CommandLineRunner {
 
     private final TranslationRepository repository;
