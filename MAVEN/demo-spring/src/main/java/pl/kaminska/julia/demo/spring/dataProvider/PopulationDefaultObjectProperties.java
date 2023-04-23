@@ -4,7 +4,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 @Component
-@ConfigurationProperties(prefix = "data.user.second-object")
+@ConfigurationProperties(prefix = "data.user.second-object", ignoreUnknownFields = false)
 public class PopulationDefaultObjectProperties {
     private String kraj;
     private long liczebnosc;
